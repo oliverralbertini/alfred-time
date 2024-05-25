@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import timezone, datetime, timedelta
 from typing import List, Optional, Union
 
 DOCS = "https://www.gnu.org/software/coreutils/manual/html_node/Date-input-formats.html"
@@ -43,7 +43,7 @@ def atoi(s: Union[int, str, float]) -> Optional[int]:
 
 def generate_items(t: datetime, desc: str):
     ts = t.timestamp()
-    utc = datetime.fromtimestamp(ts, UTC)
+    utc = datetime.fromtimestamp(ts, timezone.utc)
     items = [Item(str(int(ts)), f"{desc} Timestamp", str(int(ts)))] + [
         Item(t_.strftime(layout), f"{desc} ({t_.tzinfo})", t_.strftime(layout))
         for t_ in [t, utc]
